@@ -1,7 +1,7 @@
 <template>
   <div>
-    <button v-on:click="addLike">Like</button>
-    <button v-on:click="addDislike">Dislike</button>
+    <button @click="addLike">Like</button>
+    <button @click="addDislike">Dislike</button>
   </div>
   <div>Number of likes: <strong>{{ likes }}</strong></div>
   <div>Number of dislikes: <strong>{{ dislikes }}</strong></div>

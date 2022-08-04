@@ -2,13 +2,33 @@
   <div class="app">
     <form>
       <h4>Создание поста</h4>
-      <input class="input" type="text" placeholder="Название"/>
-      <input class="input" type="text" placeholder="Описание"/>
-      <button class="btn">Создать</button>
+      <input
+          v-bind:value="title"
+          class="input"
+          type="text"
+          placeholder="Название"
+      />
+      <input
+          v-bind:value="body"
+          class="input"
+          type="text"
+          placeholder="Описание"
+      />
+      <button
+          class="btn"
+          @click="createPost">
+        Создать
+      </button>
     </form>
     <div class="post" v-for="post in posts">
-      <div><strong>Название:</strong> {{ post.title }}</div>
-      <div><strong>Описание:</strong> {{ post.body }}</div>
+      <div>
+        <strong>Название:</strong>
+        {{ post.title }}
+      </div>
+      <div>
+        <strong>Описание:</strong>
+        {{ post.body }}
+      </div>
     </div>
   </div>
 </template>
@@ -18,14 +38,18 @@ export default {
   data() {
     return {
       posts: [
-        {id: 1, title: 'JavaScript', body: 'Описание поста'},
-        {id: 2, title: 'JavaScript 2', body: 'Описание поста 2'},
-        {id: 2, title: 'JavaScript 3', body: 'Описание поста 3'},
-      ]
+        { id: 1, title: 'JavaScript', body: 'Описание поста' },
+        { id: 2, title: 'JavaScript 2', body: 'Описание поста 2' },
+        { id: 2, title: 'JavaScript 3', body: 'Описание поста 3' },
+      ],
+      title: '',
+      body: '',
     }
   },
   methods: {
+    createPost() {
 
+    }
   }
 }
 

@@ -2,15 +2,13 @@
   <form @submit.prevent>
     <h4>Создание поста</h4>
     <input
-        :value="post.title"
-        @input="post.title = $event.target.value"
+        v-model="post.title"
         class="input"
         type="text"
         placeholder="Название"
     />
     <input
-        :value="post.body"
-        @input="post.body = $event.target.value"
+        v-model="post.body"
         class="input"
         type="text"
         placeholder="Описание"
@@ -30,6 +28,16 @@ export default {
       post: {
         title: '',
         body: ''
+      }
+    }
+  },
+  methods: {
+    createPost() {
+      this.post.id = new Date()
+      this.$emit('create', this.post)
+      this.posts = {
+        title: '',
+        body: '',
       }
     }
   }

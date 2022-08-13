@@ -13,16 +13,17 @@
         type="text"
         placeholder="Описание"
     />
-    <button
-        class="btn"
+    <my-button
         @click="createPost">
       Создать
-    </button>
+    </my-button>
   </form>
 </template>
 
 <script>
+import MyButton from "@/components/UI/MyButton";
 export default {
+  components: { MyButton },
   data() {
     return {
       post: {
@@ -35,7 +36,7 @@ export default {
     createPost() {
       this.post.id = new Date()
       this.$emit('create', this.post)
-      this.posts = {
+      this.post = {
         title: '',
         body: '',
       }
@@ -45,29 +46,14 @@ export default {
 </script>
 
 <style scoped>
+form {
+  display: flex;
+  flex-direction: column;
+}
 .input {
   width: 100%;
   border: 1px solid teal;
   padding: 10px 15px;
   margin-top: 15px;
-}
-
-.btn {
-  margin-top: 15px;
-  align-self: flex-end;
-  padding: 10px 15px;
-  background: none;
-  color: teal;
-  border: 1px solid teal;
-  cursor: pointer;
-}
-
-.btn:hover {
-  background: teal;
-  color: #fff
-}
-
-.btn:active {
-  opacity: 0.5;
 }
 </style>

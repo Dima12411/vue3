@@ -1,18 +1,28 @@
 <template>
-  <div class="post" v-for=>
-    <div>
-      <strong>Название:</strong>
-      {{ post.title }}
+  <div class="post">
+    <div class="post__wrapper">
+      <div>
+        <strong>Название:</strong>
+        {{ post.title }}
+      </div>
+      <div>
+        <strong>Описание:</strong>
+        {{ post.body }}
+      </div>
     </div>
-    <div>
-      <strong>Описание:</strong>
-      {{ post.body }}
+    <div class="post__btns">
+      <my-button>
+        Удалить
+      </my-button>
     </div>
   </div>
 </template>
 
 <script>
+import MyButton from "@/components/UI/MyButton";
+
 export default {
+  components: { MyButton },
   props: {
     post: {
       type: Object,
@@ -23,5 +33,18 @@ export default {
 </script>
 
 <style scoped>
+.post {
+  padding: 15px;
+  border: 2px solid teal;
+  margin-top: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.post__wrapper {
+  display: flex;
+  flex-direction: column;
+}
 
 </style>

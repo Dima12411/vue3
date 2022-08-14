@@ -11,7 +11,9 @@
       </div>
     </div>
     <div class="post__btns">
-      <my-button>
+      <my-button
+        @click="$emit('remove', post)"
+      >
         Удалить
       </my-button>
     </div>

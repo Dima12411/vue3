@@ -1,9 +1,7 @@
 <template>
   <div class="dialog" v-if="show === true" @click="hideDialog">
     <div @click.stop class="dialog__content">
-      <slot>
-
-      </slot>
+      <slot></slot>
     </div>
   </div>
 </template>

@@ -12,6 +12,7 @@
         placeholder="Описание"
     />
     <my-button
+        class="button"
         @click="createPost">
       Создать
     </my-button>
@@ -46,4 +47,5 @@ form {
   display: flex;
   flex-direction: column;
 }
+
 </style>

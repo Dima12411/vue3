@@ -19,7 +19,7 @@
       />
     </my-dialog>
     <post-list
-        :posts="posts"
+        :posts="sortedPosts"
         @remove="removePost"
         v-if="!isPostsLoading"
     />
@@ -48,17 +48,17 @@ export default {
       isPostsLoading: false,
       selectedSort: '',
       sortOptions: [
-        {value: 'title', name: 'По названию'},
-        {value: 'body', name: 'По содержанию'},
+        { value: 'title', name: 'По названию' },
+        { value: 'body', name: 'По содержанию' },
       ]
     }
   },
   methods: {
-    createPost( post ) {
+    createPost(post) {
       this.posts.push(post)
       this.dialogVisible = false
     },
-    removePost( post ) {
+    removePost(post) {
       this.posts = this.posts.filter(el => el.id !== post.id)
     },
     showDialog() {
@@ -78,6 +78,14 @@ export default {
   },
   mounted() {
     this.fetchPosts()
+  },
+  computed: {
+    sortedPosts() {
+      return [...this.posts].sort((post1, post2) => post1[this.selectedSort]?.localeCompare(post2[this.selectedSort]))
+    }
+  },
+  watch: {
+
   }
 }
 
@@ -100,7 +108,7 @@ form {
 }
 
 .button {
-  margin: 10px 0;
+  margin: 15px 0;
 }
 
 .app__btns {

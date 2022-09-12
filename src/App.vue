@@ -28,6 +28,11 @@
         v-if="!isPostsLoading"
     />
     <div v-else>Идёт загрузка</div>
+    <pagination
+        :pages="totalPages"
+        :currentPage="page"
+        @change="changePage"
+    />
   </div>
 </template>
 
@@ -37,13 +42,14 @@ import PostForm from "@/components/PostForm";
 import MyDialog from "@/components/UI/MyDialog";
 import MyButton from "@/components/UI/MyButton";
 import MySelect from "@/components/UI/MySelect";
+import Pagination from "@/components/Pagination"
 import axios from "axios";
 
 export default {
   components: {
     MyButton,
     MyDialog,
-    PostList, PostForm, MySelect
+    PostList, PostForm, MySelect, Pagination
   },
   data() {
     return {
@@ -52,6 +58,9 @@ export default {
       isPostsLoading: false,
       selectedSort: '',
       searchQuery: '',
+      page: 1,
+      limit: 10,
+      totalPages: 0,
       sortOptions: [
         { value: 'title', name: 'По названию' },
         { value: 'body', name: 'По содержанию' },
@@ -69,10 +78,19 @@ export default {
     showDialog() {
       this.dialogVisible = true
     },
+    changePage(pageNumber) {
+      this.page = pageNumber
+    },
     async fetchPosts() {
       try {
         this.isPostsLoading = true
-        const response = await axios.get('https://jsonplaceholder.typicode.com/posts?_limit=10')
+        const response = await axios.get('https://jsonplaceholder.typicode.com/posts', {
+          params: {
+            _page: this.page,
+            _limit: this.limit,
+          }
+        })
+        this.totalPages = Math.ceil(response.headers['x-total-count'] / this.limit)
         this.posts = response.data
       } catch (e) {
         alert('Ошибка')

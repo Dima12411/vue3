@@ -80,6 +80,7 @@ export default {
     },
     changePage(pageNumber) {
       this.page = pageNumber
+
     },
     async fetchPosts() {
       try {
@@ -110,7 +111,11 @@ export default {
       return this.sortedPosts.filter(post => post.title.toLowerCase().includes(this.searchQuery.toLowerCase()))
     }
   },
-  watch: {}
+  watch: {
+    page() {
+      this.fetchPosts()
+    }
+  }
 }
 
 </script>

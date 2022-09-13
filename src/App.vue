@@ -28,11 +28,14 @@
         v-if="!isPostsLoading"
     />
     <div v-else>Идёт загрузка</div>
-    <pagination
-        :pages="totalPages"
-        :currentPage="page"
-        @change="changePage"
-    />
+    <div ref="observer">
+
+    </div>
+    <!--    <pagination-->
+    <!--        :pages="totalPages"-->
+    <!--        :currentPage="page"-->
+    <!--        @change="changePage"-->
+    <!--    />-->
   </div>
 </template>
 
@@ -78,10 +81,10 @@ export default {
     showDialog() {
       this.dialogVisible = true
     },
-    changePage(pageNumber) {
-      this.page = pageNumber
-
-    },
+    // changePage(pageNumber) {
+    //   this.page = pageNumber
+    //
+    // },
     async fetchPosts() {
       try {
         this.isPostsLoading = true
@@ -98,10 +101,37 @@ export default {
       } finally {
         this.isPostsLoading = false
       }
+    },
+    async loadMorePosts() {
+      try {
+        this.page += 1
+        const response = await axios.get('https://jsonplaceholder.typicode.com/posts', {
+          params: {
+            _page: this.page,
+            _limit: this.limit,
+          }
+        })
+        this.totalPages = Math.ceil(response.headers['x-total-count'] / this.limit)
+        this.posts = [...this.posts, ...response.data]
+      } catch (e) {
+        alert('Ошибка')
+      }
     }
   },
   mounted() {
     this.fetchPosts()
+    const options = {
+      root: document.querySelector('#scrollArea'),
+      rootMargin: '0px',
+      threshold: 1.0
+    }
+    const callback = (entries, observer) => {
+      if (entries[0].isIntersecting && this.page < this.totalPages) {
+        this.loadMorePosts()
+      }
+    };
+    const observer = new IntersectionObserver(callback, options);
+    observer.observe(this.$refs.observer)
   },
   computed: {
     sortedPosts() {
@@ -112,9 +142,9 @@ export default {
     }
   },
   watch: {
-    page() {
-      this.fetchPosts()
-    }
+    // page() {
+    //   this.fetchPosts()
+    // }
   }
 }
 
@@ -145,4 +175,5 @@ form {
   justify-content: space-between;
 
 }
+
 </style>
